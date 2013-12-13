@@ -17,8 +17,8 @@ object Mt1_451 {
     private val l1 = lines(1).asCont
     private val l2 = lines(2).asCont
     private val l3 = lines(3).asCont
-    private val l4 = lines(4)
-    private val l5 = lines(5)
+    private val l4 = lines(4).asText
+    private val l5 = lines(5).asText
   
     /** Usually 1000 * z + a. Or 1-99 for mixtures, compounds, alloys or molecules. Section 0.5.1 */
     def za: Za = l0.za
@@ -50,8 +50,8 @@ object Mt1_451 {
     def nxc: Int = l3.n2
     lazy val Seq(zsymam, alab, edate, auth, _) = l4.body.read(11, 11, 11, 11, 22)
     lazy val Seq(ref, ddate, rdate, endate, _) = l5.body.read(11, 11, 11, 11, 22)
-    lazy val hsub: Seq[String] = for (i <- 6 to 8) yield lines(i).body
-    lazy val description: Seq[String] = for (i <- 4 until (4 + nwd)) yield lines(i).body
+    lazy val hsub: Seq[String] = for (i <- 6 to 8) yield lines(i).asText.body
+    lazy val description: Seq[String] = for (i <- 4 until (4 + nwd)) yield lines(i).asText.body
     lazy val files: Seq[File] = for (i <- (4 + nwd) until (4 + nwd + nxc)) yield {
       val c = lines(i).asCont
       File(c.l1, c.l2, c.n1, c.n2)

@@ -27,7 +27,7 @@ object Loader {
       case _ => files
     }
 
-    val allFiles = loadFiles(lines.map(x => new Record(x)), Seq())
+    val allFiles = loadFiles(lines.map(x => Record(x)), Seq())
     new Material(allFiles)
   }
 

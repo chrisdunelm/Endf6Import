@@ -11,9 +11,11 @@ object EndfFile {
   }
 
 def create(fileNumber: Int, mts: Seq[EndfMt]): EndfFile = fileNumber match {
-    case 1 => File1(mts)
-    case 2 => File2(mts)
-    case 3 => File3(mts)
+    case 1 => new File1(mts)
+    case 2 => new File2(mts)
+    case 3 => new File3(mts)
+    case 4 => new File4(mts)
+    case 6 => new File6(mts)
     case _ => new Unknown(fileNumber)
   }
   

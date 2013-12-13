@@ -12,7 +12,9 @@ object EndfMt {
   def create(lines: Seq[Record]): EndfMt = (lines.head.mf, lines.head.mt) match {
     case (1, 451) => new Mt1_451(lines)
     case (2, 151) => new Mt2_151(lines)
-    case (3, 1) => new Mt3_1(lines)
+    case (3, _) => new Mt3_All(lines)
+    case (4, _) => new Mt4_All(lines)
+    case (6, _) => new Mt6_All(lines)
     case _ => new Unknown(lines.head.mt)
   }
   

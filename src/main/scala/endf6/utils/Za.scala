@@ -5,6 +5,6 @@ object Za {
 }
 
 case class Za(za: Int) {
-  val z: Int = za / 1000
-  val a: Int = za % 1000
+  def z: Int = za / 1000
+  def a: Int = za % 1000
 }
