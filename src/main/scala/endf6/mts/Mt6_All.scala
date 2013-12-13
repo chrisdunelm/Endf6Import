@@ -11,7 +11,7 @@ object Mt6_All {
     class ContinuumEnergyAngleDistribution extends DistributionFunction
     
     object TwoBodyReactionAngularDistribution {
-      trait LegendreRepresentation {
+      sealed trait LegendreRepresentation {
         protected val entry: Record.List.Full
         def energy: Double = entry.list.c2
         def lang: Int = entry.list.l1

@@ -5,10 +5,12 @@ import scala.io.Source
 import endf6.mts.Mt2_151.Raw.ScatteringRadius
 import endf6.mts.EndfMt
 import endf6.mts.Mt1_451
-import endf6.importer.Record.Tab1.NbtInt
+import endf6.importer.Record.Tab1.{NbtInt => NbtInt1}
+import endf6.importer.Record.Tab2.{NbtInt => NbtInt2}
 import endf6.importer.Record.Tab1.Xy
 import endf6.mts.Mt4_All
 import endf6.mts.Mt6_All.Raw.TwoBodyReactionAngularDistribution
+import endf6.mts.Mt6_All.Raw.TwoBodyReactionAngularDistribution.LegendreExpansion
 
 class LoaderTest extends FlatSpec {
 
@@ -45,7 +47,7 @@ class LoaderTest extends FlatSpec {
     val f3r1 = mat.file3.mt1.raw
     assert(f3r1.qm === 0.0)
     assert(f3r1.qi === 0.0)
-    assert(f3r1.nbtInts === Seq(NbtInt(30, 5), NbtInt(96, 2)))
+    assert(f3r1.nbtInts === Seq(NbtInt1(30, 5), NbtInt1(96, 2)))
     assert(f3r1.xys.length === 96)
     assert(f3r1.xys.take(4) ===
       Seq(Xy(1e-5, 3.713628e+1), Xy(2e-5, 3.224498e+1), Xy(5e-5, 2.790478e+1), Xy(1e-4, 2.571732e+1)))
@@ -55,7 +57,7 @@ class LoaderTest extends FlatSpec {
     val f3r2 = mat.file3.mt2.raw
     assert(f3r2.qm === 0.0)
     assert(f3r2.qi === 0.0)
-    assert(f3r2.nbtInts === Seq(NbtInt(96, 2)))
+    assert(f3r2.nbtInts === Seq(NbtInt1(96, 2)))
     assert(f3r2.xys.length === 96)
     assert(f3r2.xys.take(4) ===
       Seq(Xy(1e-5, 2.043634e+1), Xy(2e-5, 2.043634e+1), Xy(5e-5, 2.043634e+1), Xy(1e-4, 2.043633e+1)))
@@ -65,7 +67,7 @@ class LoaderTest extends FlatSpec {
     val f3r102 = mat.file3.mt102.raw
     assert(f3r102.qm === 2.224631e6)
     assert(f3r102.qi === 2.224631e6)
-    assert(f3r102.nbtInts === Seq(NbtInt(30, 5), NbtInt(96, 2)))
+    assert(f3r102.nbtInts === Seq(NbtInt1(30, 5), NbtInt1(96, 2)))
     assert(f3r102.xys.length === 96)
     assert(f3r102.xys.take(4) ===
       Seq(Xy(1e-5, 1.669994e+1), Xy(2e-5, 1.180864e+1), Xy(5e-5, 7.468441e+0), Xy(1e-4, 5.280985e+0)))
@@ -95,6 +97,12 @@ class LoaderTest extends FlatSpec {
     assert(f6r102rp(0).lip === 0)
     assert(f6r102rp(0).law === 2)
     val law2 = f6r102rp(0).distributionFunction.asInstanceOf[TwoBodyReactionAngularDistribution]
+    assert(law2.nbtInts === Seq(NbtInt2(96, 2)))
+    assert(law2.energies.length === 96)
+    assert(law2.energies(0).asInstanceOf[LegendreExpansion].energy === 1.0e-5)
+    assert(law2.energies(0).asInstanceOf[LegendreExpansion].lang === 0)
+    assert(law2.energies(0).asInstanceOf[LegendreExpansion].nl === 2)
+    assert(law2.energies(0).asInstanceOf[LegendreExpansion].coefficients === Seq(-6.160950e-8, -8.86237e-13))
   }
   
 }

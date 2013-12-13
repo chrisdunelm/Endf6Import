@@ -68,12 +68,7 @@ object Record {
   }
   
   trait Tab { this: Cont =>
-    def c1: Double
-    def c2: Double
-    def l1: Int
-    def l2: Int
     def nr: Int = n1
-    def n2: Int
   }
   
   object Tab1 {
@@ -83,7 +78,7 @@ object Record {
     case class Full(tab1: Tab1, result: Result)
   }
   
-  trait Tab1 { this: Tab =>
+  trait Tab1 { this: Cont with Tab =>
     import Tab1._
     
     def c1: Double
@@ -113,7 +108,7 @@ object Record {
     case class Tab1Result(nbtInts: Seq[NbtInt], data: Seq[Tab1.Full])
   }
   
-  trait Tab2 { this: Tab =>
+  trait Tab2 { this: Cont with Tab =>
     import Tab2._
 
     def c1: Double
